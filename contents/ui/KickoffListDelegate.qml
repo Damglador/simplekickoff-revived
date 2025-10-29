@@ -119,4 +119,24 @@ AbstractKickoffItemDelegate {
             }
         }
     }
+
+    // Disabled by simplekickoff
+    // Loader {
+    //     id: separatorLoader
+
+    //     anchors.left: root.left
+    //     anchors.right: root.right
+    //     anchors.verticalCenter: root.verticalCenter
+
+    //     active: root.isSeparator
+
+    //     asynchronous: false
+    //     sourceComponent: KSvg.SvgItem {
+    //         width: parent.width
+    //         height: KickoffSingleton.lineSvg.horLineHeight
+
+    //         svg: KickoffSingleton.lineSvg
+    //         elementId: "horizontal-line"
+    //     }
+    // }
 }

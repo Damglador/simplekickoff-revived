@@ -80,6 +80,20 @@ FocusScope {
             }
         }
     }
+    // Disabled by simplekickoff
+    // KSvg.SvgItem {
+    //     id: separator
+    //     anchors {
+    //         top: parent.top
+    //         left: sideBarFilter.right
+    //         bottom: parent.bottom
+    //     }
+    //     LayoutMirroring.enabled: kickoff.sideBarOnRight
+    //     implicitWidth: naturalSize.width
+    //     implicitHeight: implicitWidth
+    //     elementId: "vertical-line"
+    //     svg: KickoffSingleton.lineSvg
+    // }
     Loader {
         id: contentAreaLoader
         focus: true
