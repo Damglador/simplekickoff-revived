@@ -117,13 +117,14 @@ KCM.SimpleKCM {
             Kirigami.FormData.isSection: true
         }
 
-        QQC2.ComboBox {
-            id: appNameFormat
+        // Disabled by simplekickoff
+        // QQC2.ComboBox {
+        //     id: appNameFormat
 
-            Kirigami.FormData.label: i18n("Show applications as:")
+        //     Kirigami.FormData.label: i18n("Show applications as:")
 
-            model: [i18n("Name only"), i18n("Description only"), i18n("Name (Description)"), i18n("Description (Name)")]
-        }
+        //     model: [i18n("Name only"), i18n("Description only"), i18n("Name (Description)"), i18n("Description (Name)")]
+        // }
 
         Item {
             Kirigami.FormData.isSection: true
