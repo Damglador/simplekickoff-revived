@@ -3,9 +3,16 @@
     "KPlugin": {
         "Authors": [
             {
-                "Name": "various"
+              "Name": "Himprakash Deka"
+            },
+            {
+              "Name": "Vsevolod «Damglador» Stopchanskyi",
+              "Name[uk]": "Всеволод «Damglador» Стопчанський",
+              "Email": "vse.stopchanskyi@gmail.com"
             }
         ],
+        "Website": "https://github.com/Damglador/simplekickoff-revived",
+        "BugReportUrl": "https://github.com/Damglador/simplekickoff-revived/issues",
         "Category": "Application Launchers",
         "ServiceTypes": [
             "Plasma/Applet"
@@ -15,7 +22,7 @@
         "Description": "Search Applications and more",
         "Id": "org.kde.plasma.simplekickoff",
         "Icon": "start-here-kde",
-        "Version": "2.5",
+        "Version": "2.6",
         "License": "GPL-2.0+"
     },
     "X-Plasma-Provides": [
