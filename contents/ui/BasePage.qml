@@ -37,6 +37,7 @@ FocusScope {
 
     TriangleMouseFilter {
         id: sideBarFilter
+        active: Plasmoid.configuration.switchCategoryOnHover
         anchors {
             top: parent.top
             left: parent.left

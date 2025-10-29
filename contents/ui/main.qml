@@ -95,10 +95,14 @@ PlasmoidItem {
     }
 
     readonly property alias recentUsageModel: recentUsageModel
+    Kicker.RecentUsageModel {
+        id: recentUsageModel
         favoritesModel: rootModel.favoritesModel
     }
 
     readonly property alias frequentUsageModel: frequentUsageModel
+    Kicker.RecentUsageModel {
+        id: frequentUsageModel
         favoritesModel: rootModel.favoritesModel
         ordering: 1 // Popular / Frequently Used
     }
@@ -109,7 +113,9 @@ PlasmoidItem {
     property Item header: null
 
     // Set in Header.qml
-    property PC3.TextField searchField: null
+    // QTBUG Using PC3.TextField as type makes assignment fail
+    // "Cannot assign QObject* to TextField_QMLTYPE_8*"
+    property Item searchField: null
 
     // Set in FullRepresentation.qml, ApplicationPage.qml, PlacesPage.qml
     property Item sideBar: null // is null when searching

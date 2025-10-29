@@ -45,7 +45,7 @@ T.ItemDelegate {
 
     readonly property alias mouseArea: mouseArea
 
-    readonly property bool iconAndLabelsShouldlookSelected: isPressed && !isCategoryListItem
+    readonly property bool iconAndLabelsShouldlookSelected: down && !isCategoryListItem
 
     property bool labelTruncated: false
     property bool descriptionTruncated: false
@@ -53,9 +53,7 @@ T.ItemDelegate {
 
     property Item dragIconItem: null
 
-    // pressed: is read-only and we're not using it here because we have fancy
-    // custom mouse handling
-    readonly property bool isPressed: mouseArea.pressed
+    down: mouseArea.pressed || dragHandler.active
 
     function openActionMenu(x = undefined, y = undefined) {
         if (!hasActionList) { return; }
@@ -111,11 +109,13 @@ T.ItemDelegate {
     // using `model` () instead of `root.model` leads to errors about
     // `model` not having the trigger() function
     action: T.Action {
+        Accessible.name: root.text // https://bugreports.qt.io/browse/QTBUG-130360
         onTriggered: {
             // Unless we're showing search results, eat the activation if we
             // don't have focus, to prevent the return/enter key from
             // inappropriately activating unfocused items
-            if (!root.activeFocus && !root.isSearchResult) {
+            // Also block activation while dragging.
+            if ((!root.activeFocus && !root.isSearchResult) || dragHandler.active || touchDragHandler.active) {
                 return;
             }
             view.currentIndex = index

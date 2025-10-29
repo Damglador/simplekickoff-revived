@@ -110,7 +110,8 @@ BasePage {
                 objectName: "applicationsListView"
                 mainContentView: true
                 model: stackView.appsModel
-                section.property: model && model.description === "KICKER_ALL_MODEL" ? "group" : ""
+                // we want to semantically switch between group and "", disabling grouping, workaround for QTBUG-121797
+                section.property: model && model.description === "KICKER_ALL_MODEL" ? "group" : "_unset"
                 section.criteria: ViewSection.FirstCharacter
             }
         }
@@ -165,7 +166,9 @@ BasePage {
             }
         }
     }
-
+    // NormalPage doesn't get destroyed when deactivated, so the binding uses
+    // StackView.status and visible. This way the bindings are reset when
+    // NormalPage is Activated again.
     Binding {
         target: kickoff
         property: "sideBar"
