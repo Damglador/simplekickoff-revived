@@ -69,9 +69,11 @@ Item {
         url: ""
         decoration: "start-here-kde"
         description: "asdf"
+        PC3.ToolTip.text: ""
         width: implicitHeight
         action: null
         indicator: null
+        isMultilineText: false
     }
     KickoffListDelegate {
         id: compactListDelegate
@@ -83,9 +85,11 @@ Item {
         text: "asdf"
         url: ""
         decoration: "start-here-kde"
+        PC3.ToolTip.text: ""
         description: "asdf"
         action: null
         indicator: null
+        isMultilineText: false
     }
     //END
 }
