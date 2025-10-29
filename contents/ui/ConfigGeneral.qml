@@ -37,6 +37,7 @@ KCM.SimpleKCM {
     property alias cfg_alphaSort: alphaSort.checked
     property var cfg_systemFavorites: String(Plasmoid.configuration.systemFavorites)
     property int cfg_primaryActions: Plasmoid.configuration.primaryActions
+    // Disabled by simplekickoff
     // property alias cfg_showActionButtonCaptions: showActionButtonCaptions.checked
     property alias cfg_compactMode: compactModeCheckbox.checked
     property alias cfg_highlightNewlyInstalledApps: highlightNewlyInstalledAppsCheckbox.checked
@@ -217,6 +218,7 @@ KCM.SimpleKCM {
             Kirigami.FormData.isSection: true
         }
 
+        // Disabled by simplekickoff
         // QQC2.RadioButton {
         //     id: paneSwapOff
         //     Kirigami.FormData.label: i18n("Sidebar position:")
@@ -226,6 +228,7 @@ KCM.SimpleKCM {
         //     checked: !Plasmoid.configuration.paneSwap
         // }
 
+        // Disabled by simplekickoff
         // QQC2.RadioButton {
         //     id: paneSwapOn
         //     text: mirrored ? i18n("Left") : i18n("Right")
@@ -299,11 +302,11 @@ KCM.SimpleKCM {
             property int index: 3
             checked: Plasmoid.configuration.primaryActions === index
         }
-
-        QQC2.CheckBox {
-            id: showActionButtonCaptions
-            text: i18n("Show action button captions")
-        }
+        // Disabled by simplekickoff
+        // QQC2.CheckBox {
+        //     id: showActionButtonCaptions
+        //     text: i18n("Show action button captions")
+        // }
     }
 
     QQC2.ButtonGroup {
