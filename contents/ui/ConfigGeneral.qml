@@ -30,7 +30,8 @@ KCM.SimpleKCM {
 
     property string cfg_menuLabel: menuLabel.text
     property string cfg_icon: Plasmoid.configuration.icon
-    property alias cfg_appNameFormat: appNameFormat.currentIndex
+    // Disabled by simplekickoff
+    // property alias cfg_appNameFormat: appNameFormat.currentIndex
     property bool cfg_paneSwap: Plasmoid.configuration.paneSwap
     property int cfg_favoritesDisplay: Plasmoid.configuration.favoritesDisplay
     property int cfg_applicationsDisplay: Plasmoid.configuration.applicationsDisplay
