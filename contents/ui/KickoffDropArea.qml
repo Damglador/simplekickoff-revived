@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: LGPL-2.0-or-later
  */
 
-import QtQuick 2.15
-import QtQml 2.15
+pragma ComponentBehavior: Bound
+
+import QtQuick
 import org.kde.plasma.core as PlasmaCore
-import org.kde.plasma.plasmoid 2.0
+import org.kde.plasma.plasmoid
 
 DropArea {
     id: root
