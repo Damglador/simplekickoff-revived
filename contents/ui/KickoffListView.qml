@@ -47,7 +47,7 @@ EmptyPage {
 
     header: MouseArea {
         implicitHeight: KickoffSingleton.listItemMetrics.margins.top
-        hoverEnabled: true
+        hoverEnabled: mainContentView || Plasmoid.configuration.switchCategoryOnHover
         onEntered: {
             if (containsMouse) {
                 const targetIndex = view.indexAt(mouseX + view.contentX, view.contentY)
@@ -61,7 +61,7 @@ EmptyPage {
 
     footer: MouseArea {
         implicitHeight: KickoffSingleton.listItemMetrics.margins.bottom
-        hoverEnabled: true
+        hoverEnabled: mainContentView || Plasmoid.configuration.switchCategoryOnHover
         onEntered: {
             if (containsMouse) {
                 const targetIndex = view.indexAt(mouseX + view.contentX, view.height + view.contentY - 1)
@@ -143,6 +143,10 @@ EmptyPage {
             width: view.availableWidth
         }
 
+        // Without switch-on-hover, it's possible for the selected category and the hovered category to be adjacent.
+        // When this happens, their highlights tuoch and look ungly without some artificial spacing added.
+        spacing: root.showingCategories && !Plasmoid.configuration.switchCategoryOnHover ? Kirigami.Units.smallSpacing : 0
+
         section {
             property: "group"
             criteria: ViewSection.FullString
@@ -154,7 +158,6 @@ EmptyPage {
                 text: section.length === 1 ? section.toUpperCase() : section
 
                 HoverHandler {
-                    id: hoverHandler
                     enabled: root.hasSectionView
                     cursorShape: enabled ? Qt.PointingHandCursor : undefined
                 }

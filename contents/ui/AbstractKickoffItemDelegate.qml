@@ -195,9 +195,12 @@ T.ItemDelegate {
         Item { id: dragItem }
 
         onEntered: {
-            // When the movedWithKeyboard condition is broken, we do not want to
-            // select the hovered item without moving the mouse.
-            if (root.view.movedWithKeyboard) {
+            // - When the movedWithKeyboard condition is broken, we do not want to
+            //   select the hovered item without moving the mouse.
+            // - Don't highlight separators.
+            // - Don't switch category items on hover if the setting isn't enabled
+            if (root.view.movedWithKeyboard || root.isSeparator
+                || (root.isCategoryListItem && !Plasmoid.configuration.switchCategoryOnHover)) {
                 return
             }
             // Don't highlight separators.
