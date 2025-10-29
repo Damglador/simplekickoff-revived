@@ -84,9 +84,9 @@ FocusScope {
         id: contentAreaLoader
         focus: true
         anchors {
+            top: parent.top
             left: sideBarFilter.right
             right: parent.right
-            top: parent.top
             bottom: parent.bottom
         }
         LayoutMirroring.enabled: kickoff.sideBarOnRight
