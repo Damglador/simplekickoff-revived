@@ -147,24 +147,25 @@ EmptyPage {
         // When this happens, their highlights tuoch and look ungly without some artificial spacing added.
         spacing: root.showingCategories && !Plasmoid.configuration.switchCategoryOnHover ? Kirigami.Units.smallSpacing : 0
 
-        section {
-            property: "group"
-            criteria: ViewSection.FullString
-            delegate: PlasmaExtras.ListSectionHeader {
-                required property string section
+        // Disabled by simplekickoff
+        // section {
+        //     property: "group"
+        //     criteria: ViewSection.FullString
+        //     delegate: PlasmaExtras.ListSectionHeader {
+        //         required property string section
 
-                width: view.availableWidth
-                height: KickoffSingleton.compactListDelegateHeight
-                text: section.length === 1 ? section.toUpperCase() : section
+        //         width: view.availableWidth
+        //         height: KickoffSingleton.compactListDelegateHeight
+        //         text: section.length === 1 ? section.toUpperCase() : section
 
-                HoverHandler {
-                    enabled: root.hasSectionView
-                    cursorShape: enabled ? Qt.PointingHandCursor : undefined
-                }
+        //         HoverHandler {
+        //             enabled: root.hasSectionView
+        //             cursorShape: enabled ? Qt.PointingHandCursor : undefined
+        //         }
 
-                onClicked: root.showSectionViewRequested(text)
-            }
-        }
+        //         onClicked: root.showSectionViewRequested(text)
+        //     }
+        // }
 
         move: normalTransition
         moveDisplaced: normalTransition
