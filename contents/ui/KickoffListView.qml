@@ -301,6 +301,13 @@ EmptyPage {
                         currentIndex = Math.min(targetIndex, count - 1)
                         focusCurrentItem(event, Qt.TabFocusReason)
                     } break
+                    case Qt.Key_Return:
+                        /* Fall through*/
+                    case Qt.Key_Enter:
+                        root.currentItem.action.triggered();
+                        root.currentItem.forceActiveFocus(Qt.ShortcutFocusReason);
+                        event.accepted = true;
+                        break;
                 }
             }
             movedWithKeyboard = event.accepted
