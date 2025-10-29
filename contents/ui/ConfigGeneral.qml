@@ -26,6 +26,7 @@ import org.kde.kcmutils as KCM
 import "code/tools.js" as Tools
 
 KCM.SimpleKCM {
+    id: root
     property string cfg_menuLabel: menuLabel.text
     property string cfg_icon: Plasmoid.configuration.icon
     property bool cfg_paneSwap: Plasmoid.configuration.paneSwap

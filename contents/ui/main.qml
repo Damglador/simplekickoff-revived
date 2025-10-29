@@ -94,11 +94,11 @@ PlasmoidItem {
         }
     }
 
-    readonly property Kicker.RecentUsageModel recentUsageModel: Kicker.RecentUsageModel {
+    readonly property alias recentUsageModel: recentUsageModel
         favoritesModel: rootModel.favoritesModel
     }
 
-    readonly property Kicker.RecentUsageModel frequentUsageModel: Kicker.RecentUsageModel {
+    readonly property alias frequentUsageModel: frequentUsageModel
         favoritesModel: rootModel.favoritesModel
         ordering: 1 // Popular / Frequently Used
     }

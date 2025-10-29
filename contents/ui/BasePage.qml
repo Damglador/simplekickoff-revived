@@ -32,14 +32,14 @@ FocusScope {
     property alias implicitSideBarWidth: sideBarLoader.implicitWidth
     property alias implicitSideBarHeight: sideBarLoader.implicitHeight
 
-    implicitWidth: root.preferredSideBarWidth + contentAreaLoader.implicitWidth
-    implicitHeight: Math.max(root.preferredSideBarHeight, contentAreaLoader.implicitHeight)
+    implicitWidth: preferredSideBarWidth + contentAreaLoader.implicitWidth
+    implicitHeight: Math.max(preferredSideBarHeight, contentAreaLoader.implicitHeight)
 
     TriangleMouseFilter {
         id: sideBarFilter
         anchors {
-            left: parent.left
             top: parent.top
+            left: parent.left
             bottom: parent.bottom
         }
         LayoutMirroring.enabled: kickoff.sideBarOnRight
