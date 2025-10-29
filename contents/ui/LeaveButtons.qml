@@ -79,6 +79,9 @@ RowLayout {
 
             model: filteredButtonsModel
             delegate: PC3.ToolButton {
+                required property int index
+                required property var model
+
                 text: model.display
                 icon.name: model.decoration
                 onClicked: filteredButtonsModel.trigger(index);
@@ -153,6 +156,9 @@ RowLayout {
     Instantiator {
         model: filteredMenuItemsModel
         delegate: PlasmaExtras.MenuItem {
+            required property int index
+            required property var model
+
             text: model.display
             icon: model.decoration
             onClicked: filteredMenuItemsModel.trigger(index)
