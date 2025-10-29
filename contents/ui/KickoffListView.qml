@@ -144,30 +144,12 @@ EmptyPage {
         section {
             property: "group"
             criteria: ViewSection.FullString
-            delegate: PC3.AbstractButton {
+            delegate: PlasmaExtras.ListSectionHeader {
+                required property string section
+
                 width: view.availableWidth
                 height: KickoffSingleton.compactListDelegateHeight
-
-                PC3.Label {
-                    id: contentLabel
-                    anchors.left: parent.left
-                    width: section.length === 1
-                        ? KickoffSingleton.compactListDelegateContentHeight + leftPadding + rightPadding
-                        : parent.width
-                    height: parent.height
-                    leftPadding: view.effectiveLayoutDirection === Qt.LeftToRight
-                        ? KickoffSingleton.listItemMetrics.margins.left : 0
-                    rightPadding: view.effectiveLayoutDirection === Qt.RightToLeft
-                        ? KickoffSingleton.listItemMetrics.margins.right : 0
-                    horizontalAlignment: section.length === 1 ? Text.AlignHCenter : Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    maximumLineCount: 1
-                    elide: Text.ElideRight
-                    font.pixelSize: KickoffSingleton.compactListDelegateContentHeight
-                    enabled: hoverHandler.hovered
-                    text: section.length === 1 ? section.toUpperCase() : section
-                    textFormat: Text.PlainText
-                }
+                text: section.length === 1 ? section.toUpperCase() : section
 
                 HoverHandler {
                     id: hoverHandler
