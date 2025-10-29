@@ -162,7 +162,7 @@ EmptyPage {
                     cursorShape: enabled ? Qt.PointingHandCursor : undefined
                 }
 
-                onClicked: root.showSectionViewRequested(contentLabel.text)
+                onClicked: root.showSectionViewRequested(text)
             }
         }
 
