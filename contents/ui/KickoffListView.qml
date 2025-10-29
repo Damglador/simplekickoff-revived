@@ -5,6 +5,7 @@
     SPDX-FileCopyrightText: 2021 Mikel Johnson <mikel5764@gmail.com>
     SPDX-FileCopyrightText: 2021 Noah Davis <noahadvs@gmail.com>
     SPDX-FileCopyrightText: 2023 Himprakash Deka <himprakashd@gmail.com>
+    SPDX-FileCopyrightText: 2025 Vsevolod Stopchanskyi <vse.stopchanskyi@gmail.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
@@ -34,6 +35,7 @@ EmptyPage {
     property alias section: view.section
     property alias highlight: view.highlight
     property alias view: view
+    property bool showingCategories: false
 
     property bool mainContentView: false
     property bool hasSectionView: false
@@ -74,7 +76,9 @@ EmptyPage {
     }
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            contentWidth)
+                            contentWidth, // exclude padding to avoid scrollbars automatically affecting implicitWidth
+                            implicitHeaderWidth2,
+                            implicitFooterWidth2)
 
     leftPadding: verticalScrollBar.visible && root.mirrored ? verticalScrollBar.implicitWidth : 0
     rightPadding: verticalScrollBar.visible && !root.mirrored ? verticalScrollBar.implicitWidth : 0
@@ -116,7 +120,7 @@ EmptyPage {
         focus: true
         interactive: height < contentHeight
         pixelAligned: true
-        reuseItems: true
+        reuseItems: false // explicitly disabled because it doesn't work correctly with switching models like we do
         boundsBehavior: Flickable.StopAtBounds
         // default keyboard navigation doesn't allow focus reasons to be used
         // and eats up/down key events when at the beginning or end of the list.
@@ -204,7 +208,7 @@ EmptyPage {
         Connections {
             target: kickoff
             function onExpandedChanged() {
-                if (kickoff.expanded) {
+                if (!kickoff.expanded) {
                     view.currentIndex = 0
                     view.positionViewAtBeginning()
                 }
@@ -232,18 +236,19 @@ EmptyPage {
         }
 
         Keys.onMenuPressed: event => {
-            if (currentItem !== null) {
-                currentItem.forceActiveFocus(Qt.ShortcutFocusReason)
-                currentItem.openActionMenu()
+            const delegate = currentItem as AbstractKickoffItemDelegate;
+            if (delegate !== null) {
+                delegate.forceActiveFocus(Qt.ShortcutFocusReason)
+                delegate.openActionMenu()
             }
         }
         Keys.onPressed: event => {
             const targetX = currentItem ? currentItem.x : contentX
             let targetY = currentItem ? currentItem.y : contentY
             let targetIndex = currentIndex
-            if (count > 1) {
             const atFirst = currentIndex === 0
             const atLast = currentIndex === count - 1
+            if (count >= 1) {
                 switch (event.key) {
                     case Qt.Key_Up: if (!atFirst) {
                         decrementCurrentIndex()

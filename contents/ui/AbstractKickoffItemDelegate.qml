@@ -24,12 +24,20 @@ import org.kde.plasma.plasmoid
 T.ItemDelegate {
     id: root
 
+    enum AppNameFormat {
+        NameOnly,
+        GenericNameOnly,
+        NameAndGenericName,
+        GenericNameAndName
+    }
+
     // model properties
     required property var model
     required property int index
     required property url url
     required property var decoration
     required property string description
+    required property bool isMultilineText
 
     readonly property Flickable view: ListView.view ?? GridView.view
     property bool isCategoryListItem: false
@@ -203,10 +211,6 @@ T.ItemDelegate {
                 || (root.isCategoryListItem && !Plasmoid.configuration.switchCategoryOnHover)) {
                 return
             }
-            // Don't highlight separators.
-            if (root.isSeparator) {
-                return;
-            }
 
             // forceActiveFocus() touches multiple items, so check for
             // activeFocus first to be more efficient.
@@ -252,9 +256,10 @@ T.ItemDelegate {
     }
 
     PC3.ToolTip.text: {
-        if (root.labelTruncated && root.descriptionTruncated) {
-            return `${text} (${description})`
-        } else if (root.descriptionTruncated || !root.descriptionVisible) {
+        if (root.labelTruncated) {
+            return model.display
+        } else if (root.descriptionTruncated || (!root.descriptionVisible && (root.isSearchResult
+                                                                              || Plasmoid.configuration.appNameFormat > 1))) {
             return description
         }
         return ""

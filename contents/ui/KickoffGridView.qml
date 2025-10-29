@@ -3,6 +3,7 @@
     SPDX-FileCopyrightText: 2021 Mikel Johnson <mikel5764@gmail.com>
     SPDX-FileCopyrightText: 2021 Noah Davis <noahadvs@gmail.com>
     SPDX-FileCopyrightText: 2023 Himprakash Deka <himprakashd@gmail.com>
+    SPDX-FileCopyrightText: 2025 Vsevolod Stopchanskyi <vse.stopchanskyi@gmail.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
@@ -73,10 +74,18 @@ EmptyPage {
      */
     GridView {
         id: view
-        readonly property real availableWidth: width - leftMargin - rightMargin
-        readonly property real availableHeight: height - topMargin - bottomMargin
-        readonly property int columns: Math.floor(availableWidth / cellWidth)
-        readonly property int rows: Math.floor(availableHeight / cellHeight)
+
+        // Not storing them as properties somehow avoids a dubious warning
+        // about *Binding loop detected for property "rows"*
+        function availableWidth(): real {
+            return width - leftMargin - rightMargin;
+        }
+        function availableHeight(): real {
+            return height - topMargin - bottomMargin;
+        }
+
+        readonly property int columns: Math.floor(availableWidth() / cellWidth)
+        readonly property int rows: Math.floor(availableHeight() / cellHeight)
         property bool movedWithKeyboard: false
         property bool movedWithWheel: false
 
@@ -187,7 +196,7 @@ EmptyPage {
         Connections {
             target: kickoff
             function onExpandedChanged() {
-                if (kickoff.expanded) {
+                if (!kickoff.expanded) {
                     view.currentIndex = 0
                     view.positionViewAtBeginning()
                 }
@@ -215,9 +224,10 @@ EmptyPage {
         }
 
         Keys.onMenuPressed: event => {
-            if (currentItem !== null) {
-                currentItem.forceActiveFocus(Qt.ShortcutFocusReason)
-                currentItem.openActionMenu()
+            const delegate = currentItem as AbstractKickoffItemDelegate;
+            if (delegate !== null) {
+                delegate.forceActiveFocus(Qt.ShortcutFocusReason)
+                delegate.openActionMenu()
             }
         }
 

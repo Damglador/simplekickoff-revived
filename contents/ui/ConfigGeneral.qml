@@ -4,6 +4,7 @@
     SPDX-FileCopyrightText: 2022 Nate Graham <nate@kde.org>
     SPDX-FileCopyrightText: 2022 ivan tkachenko <me@ratijas.tk>
     SPDX-FileCopyrightText: 2023 Himprakash Deka <himprakashd@gmail.com>
+    SPDX-FileCopyrightText: 2025 Vsevolod Stopchanskyi <vse.stopchanskyi@gmail.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */

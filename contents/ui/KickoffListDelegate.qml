@@ -82,20 +82,23 @@ AbstractKickoffItemDelegate {
                     return implicitHeight;
                 }
                 text: root.text
-                textFormat: Text.PlainText
+                textFormat: root.isMultilineText ? Text.StyledText : Text.PlainText
                 elide: Text.ElideRight
+                wrapMode: root.isMultilineText ? Text.WordWrap : Text.NoWrap
                 verticalAlignment: Text.AlignVCenter
-                maximumLineCount: 1
+                maximumLineCount: root.isMultilineText ? Infinity : 1
                 color: gridLayout.textColor
             }
 
             PC3.Label {
                 id: descriptionLabel
                 Layout.fillWidth: true
-                // Don't want to show descriptions for apps in the category list, because
-                // there's not enough room for them with the category list item height
-                visible: text.length > 0 && text !== root.text && !root.isCategoryListItem
-                enabled: false
+                visible: {
+                    let isApplicationSearchResult = root.model?.group === "Applications" || root.model?.group === "System Settings"
+                    let isSearchResultWithDescription = root.isSearchResult && (Plasmoid.configuration?.appNameFormat > 1 || !isApplicationSearchResult)
+                    return text.length > 0 && (isSearchResultWithDescription || (text !== label.text && !root.isCategoryListItem && Plasmoid.configuration?.appNameFormat > 1))
+                }
+                opacity: 0.75
                 text: root.description
                 textFormat: Text.PlainText
                 font: Kirigami.Theme.smallFont
