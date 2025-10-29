@@ -114,9 +114,10 @@ KCM.SimpleKCM {
             }
         }
 
-        Item {
-            Kirigami.FormData.isSection: true
-        }
+        // Disabled by simplekickoff
+        // Item {
+        //     Kirigami.FormData.isSection: true
+        // }
 
         // Disabled by simplekickoff
         // QQC2.ComboBox {
