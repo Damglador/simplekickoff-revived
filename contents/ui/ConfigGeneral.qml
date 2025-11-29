@@ -49,18 +49,18 @@ KCM.SimpleKCM {
         QQC2.Button {
             id: iconButton
 
-            Kirigami.FormData.label: i18n("Icon:")
+            Kirigami.FormData.label: i18n("Icon:") // qmllint disable unqualified
 
             implicitWidth: previewFrame.width + Kirigami.Units.smallSpacing * 2
             implicitHeight: previewFrame.height + Kirigami.Units.smallSpacing * 2
             hoverEnabled: true
 
-            Accessible.name: i18nc("@action:button", "Change Application Launcher's icon")
-            Accessible.description: i18nc("@info:whatsthis", "Current icon is %1. Click to open menu to change the current icon or reset to the default icon.", root.cfg_icon)
+            Accessible.name: i18nc("@action:button", "Change Application Launcher's icon") // qmllint disable unqualified
+            Accessible.description: i18nc("@info:whatsthis", "Current icon is %1. Click to open menu to change the current icon or reset to the default icon.", root.cfg_icon) // qmllint disable unqualified
             Accessible.role: Accessible.ButtonMenu
 
             QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
-            QQC2.ToolTip.text: i18nc("@info:tooltip", "Icon name is \"%1\"", root.cfg_icon)
+            QQC2.ToolTip.text: i18nc("@info:tooltip", "Icon name is \"%1\"", root.cfg_icon) // qmllint disable unqualified
             QQC2.ToolTip.visible: iconButton.hovered && root.cfg_icon.length > 0
 
             KIconThemes.IconDialog {
@@ -95,19 +95,19 @@ KCM.SimpleKCM {
                 y: parent.height
 
                 QQC2.MenuItem {
-                    text: i18nc("@item:inmenu Open icon chooser dialog", "Choose…")
+                    text: i18nc("@item:inmenu Open icon chooser dialog", "Choose…") // qmllint disable unqualified
                     icon.name: "document-open-folder"
-                    Accessible.description: i18nc("@info:whatsthis", "Choose an icon for Application Launcher")
+                    Accessible.description: i18nc("@info:whatsthis", "Choose an icon for Application Launcher") // qmllint disable unqualified
                     onClicked: iconDialog.open()
                 }
                 QQC2.MenuItem {
-                    text: i18nc("@item:inmenu Reset icon to default", "Reset to default icon")
+                    text: i18nc("@item:inmenu Reset icon to default", "Reset to default icon") // qmllint disable unqualified
                     icon.name: "edit-clear"
                     enabled: root.cfg_icon !== Tools.defaultIconName
                     onClicked: root.cfg_icon = Tools.defaultIconName
                 }
                 QQC2.MenuItem {
-                    text: i18nc("@action:inmenu", "Remove icon")
+                    text: i18nc("@action:inmenu", "Remove icon") // qmllint disable unqualified
                     icon.name: "delete"
                     enabled: root.cfg_icon !== "" && menuLabel.text && Plasmoid.formFactor !== PlasmaCore.Types.Vertical
                     onClicked: root.cfg_icon = ""
