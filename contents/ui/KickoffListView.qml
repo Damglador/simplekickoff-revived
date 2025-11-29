@@ -19,7 +19,6 @@ import org.kde.plasma.plasmoid
 import org.kde.plasma.components as PC3
 import org.kde.plasma.extras as PlasmaExtras
 
-import org.kde.ksvg as KSvg
 import org.kde.kirigami as Kirigami
 
 // ScrollView makes it difficult to control implicit size using the contentItem.

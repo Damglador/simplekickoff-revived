@@ -5,7 +5,6 @@
 pragma ComponentBehavior: Bound
 pragma Singleton // NOTE: Singletons are shared between all instances of a plasmoid
 
-import QtQml.Models
 import QtQuick
 import org.kde.kirigami as Kirigami
 import org.kde.ksvg as KSvg

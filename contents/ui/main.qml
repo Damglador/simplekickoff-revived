@@ -86,12 +86,12 @@ PlasmoidItem {
         }
         appletInterface: kickoff
         mergeResults: true
-        favoritesModel: rootModel.favoritesModel
+        favoritesModel: kickoff.rootModel.favoritesModel
     }
 
     readonly property Kicker.ComputerModel computerModel: Kicker.ComputerModel {
         appletInterface: kickoff
-        favoritesModel: rootModel.favoritesModel
+        favoritesModel: kickoff.rootModel.favoritesModel
         systemApplications: Plasmoid.configuration.systemApplications
         Component.onCompleted: {
             //systemApplications = Plasmoid.configuration.systemApplications;
@@ -101,13 +101,13 @@ PlasmoidItem {
     readonly property alias recentUsageModel: recentUsageModel
     Kicker.RecentUsageModel {
         id: recentUsageModel
-        favoritesModel: rootModel.favoritesModel
+        favoritesModel: kickoff.rootModel.favoritesModel
     }
 
     readonly property alias frequentUsageModel: frequentUsageModel
     Kicker.RecentUsageModel {
         id: frequentUsageModel
-        favoritesModel: rootModel.favoritesModel
+        favoritesModel: kickoff.rootModel.favoritesModel
         ordering: 1 // Popular / Frequently Used
     }
     //END
@@ -193,7 +193,7 @@ PlasmoidItem {
         readonly property bool shouldHaveIcon: Plasmoid.formFactor === PlasmaCore.Types.Vertical || Plasmoid.icon !== ""
         readonly property bool shouldHaveLabel: Plasmoid.formFactor !== PlasmaCore.Types.Vertical && Plasmoid.configuration.menuLabel !== ""
 
-        readonly property int iconSize: 48
+        readonly property int iconSize: Kirigami.Units.iconSizes.large
 
         readonly property var sizing: {
             const displayedIcon = buttonIcon.valid ? buttonIcon : buttonIconFallback;

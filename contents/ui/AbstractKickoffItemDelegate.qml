@@ -13,7 +13,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Layouts
 import QtQuick.Templates as T
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.components as PC3

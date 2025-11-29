@@ -16,7 +16,6 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.components as PC3
 import org.kde.kirigami as Kirigami
-import org.kde.plasma.plasmoid
 
 AbstractKickoffItemDelegate {
     id: root
