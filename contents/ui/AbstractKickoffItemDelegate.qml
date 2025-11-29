@@ -192,13 +192,6 @@ T.ItemDelegate {
             // to change while delegates are moving under the mouse cursor
             && kickoff.fullRepresentationItem && !kickoff.fullRepresentationItem.contentItem.busy && !kickoff.fullRepresentationItem.blockingHoverFocus
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        drag {
-            axis: Drag.XAndYAxis
-            target: root.dragEnabled && mouseArea.dragEnabled ? dragItem : undefined
-        }
-        // Using this Item fixes drag and drop causing delegates
-        // to reset to a 0 X position and overlapping each other.
-        Item { id: dragItem }
 
         onEntered: {
             // - When the movedWithKeyboard condition is broken, we do not want to
@@ -226,19 +219,9 @@ T.ItemDelegate {
             root.view.currentIndex = root.index
             root.forceActiveFocus(Qt.MouseFocusReason)
 
-            // Only enable drag and drop with a mouse.
-            // We don't have a good way to handle it and drag scrolling with touch.
-            mouseArea.dragEnabled = mouse.source === Qt.MouseEventNotSynthesized
-
             // We normally try to open right click menus on press like Qt Widgets
             if (mouse.button === Qt.RightButton) {
                 root.openActionMenu(mouseX, mouseY)
-            } else if (mouseArea.dragEnabled && mouse.button === Qt.LeftButton
-                && root.dragEnabled && root.dragIconItem && root.Drag.imageSource.toString() === ""
-            ) {
-                root.dragIconItem.grabToImage(result => {
-                    root.Drag.imageSource = result.url
-                })
             }
         }
         onClicked: mouse => {
@@ -246,12 +229,10 @@ T.ItemDelegate {
                 root.action.trigger()
             }
         }
-        // MouseEvents for pressAndHold use Qt.MouseEventSynthesizedByQt for mouse.source,
-        // which makes checking mouse.source for whether or not touch input is used useless.
-        onPressAndHold: mouse => {
-            if (mouse.button === Qt.LeftButton) {
-                root.openActionMenu(mouseX, mouseY)
-            }
+
+        TapHandler {
+            acceptedDevices: PointerDevice.TouchScreen
+            onLongPressed: root.openActionMenu(point.position.x, point.position.y)
         }
     }
 

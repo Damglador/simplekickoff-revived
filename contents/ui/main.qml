@@ -139,11 +139,11 @@ PlasmoidItem {
     //BEGIN Metrics
     readonly property KSvg.FrameSvgItem backgroundMetrics: KSvg.FrameSvgItem {
         // Inset defaults to a negative value when not set by margin hints
-        readonly property real leftPadding: margins.left - Math.max(inset.left, 0)
-        readonly property real rightPadding: margins.right - Math.max(inset.right, 0)
-        readonly property real topPadding: margins.top - Math.max(inset.top, 0)
-        readonly property real bottomPadding: margins.bottom - Math.max(inset.bottom, 0)
-        readonly property real spacing: leftPadding
+        readonly property real leftPadding: Math.round(margins.left - Math.max(inset.left, 0))
+        readonly property real rightPadding: Math.round(margins.right - Math.max(inset.right, 0))
+        readonly property real topPadding: Math.round(margins.top - Math.max(inset.top, 0))
+        readonly property real bottomPadding: Math.round(margins.bottom - Math.max(inset.bottom, 0))
+        readonly property real spacing: Math.round(leftPadding)
         visible: false
         imagePath: Plasmoid.formFactor === PlasmaCore.Types.Planar ? "widgets/background" : "dialogs/background"
     }
@@ -196,7 +196,7 @@ PlasmoidItem {
         readonly property int iconSize: Kirigami.Units.iconSizes.large
 
         readonly property var sizing: {
-            const displayedIcon = buttonIcon.valid ? buttonIcon : buttonIconFallback;
+            const displayedIcon = imageFallback.visible ? imageFallback : (buttonIcon.valid ? buttonIcon : buttonIconFallback);
 
             let impWidth = 0;
             if (shouldHaveIcon) {
@@ -247,6 +247,7 @@ PlasmoidItem {
         property bool wasExpanded
 
         Accessible.name: Plasmoid.title
+        Accessible.role: Accessible.Button
 
         onPressed: wasExpanded = kickoff.expanded
         onClicked: kickoff.expanded = !wasExpanded
@@ -280,7 +281,7 @@ PlasmoidItem {
                 source: Tools.iconOrDefault(Plasmoid.formFactor, Plasmoid.icon)
                 active: compactRoot.containsMouse || compactDragArea.containsDrag
                 roundToIconSize: implicitHeight === implicitWidth
-                visible: valid
+                visible: valid && !imageFallback.visible
             }
 
             Kirigami.Icon {
@@ -305,6 +306,7 @@ PlasmoidItem {
                 Layout.rightMargin: Kirigami.Units.smallSpacing
 
                 text: Plasmoid.configuration.menuLabel
+                textFormat: Text.StyledText
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.NoWrap

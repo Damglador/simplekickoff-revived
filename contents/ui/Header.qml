@@ -12,8 +12,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Templates as T
-import Qt5Compat.GraphicalEffects
 import org.kde.plasma.components as PC3
 import org.kde.plasma.extras as PlasmaExtras
 import org.kde.kirigami as Kirigami
@@ -23,7 +21,7 @@ import org.kde.kcmutils as KCM
 import org.kde.config as KConfig
 import org.kde.plasma.plasmoid
 
-EmptyPage {
+PlasmaExtras.PlasmoidHeading {
     id: root
 
     property alias searchText: searchField.text
