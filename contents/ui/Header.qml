@@ -100,17 +100,13 @@ EmptyPage {
             Connections {
                 target: kickoff
                 function onExpandedChanged() {
-                    if (kickoff.expanded) {
+                    if (!kickoff.expanded) {
                         searchField.clear()
                     }
                 }
             }
             onTextEdited: {
                 searchField.forceActiveFocus(Qt.ShortcutFocusReason)
-            }
-            onAccepted: {
-                kickoff.contentArea.currentItem.action.triggered()
-                kickoff.contentArea.currentItem.forceActiveFocus(Qt.ShortcutFocusReason)
             }
             Keys.priority: Keys.AfterItem
             Keys.forwardTo: kickoff.contentArea !== null ? kickoff.contentArea.view : []
