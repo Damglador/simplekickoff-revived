@@ -27,8 +27,18 @@ BasePage {
         // needed otherwise app displayed at top-level will show a first character as group.
         section.property: ""
         delegate: KickoffListDelegate {
+            id: sideBarDelegate
             width: view.availableWidth
             isCategoryListItem: true
+            background: PlasmaExtras.Highlight {
+                // I have to do this for it to actually fill the item for some reason
+                anchors.fill: parent
+                active: false
+                hovered: sideBarDelegate.mouseArea.containsMouse
+                visible: !Plasmoid.configuration.switchCategoryOnHover
+                    && !sideBarDelegate.isSeparator && !sideBarDelegate.ListView.isCurrentItem
+                    && hovered
+            }
         }
     }
 
@@ -80,6 +90,12 @@ BasePage {
         // But to trigger model data update, set initial value to 0
         property int appsModelRow: 0
         readonly property Kicker.AppsModel appsModel: kickoff.rootModel.modelForRow(appsModelRow)
+        Connections {
+            target: kickoff.rootModel
+            function onRefreshed() { // recalculate appsModel binding on rootModel refresh;
+                stackView.appsModelRowChanged() // modelForRow does not create dependency
+            }
+        }
         focus: true
         initialItem: preferredFavoritesViewComponent
 
@@ -131,6 +147,11 @@ BasePage {
         onPreferredFavoritesViewComponentChanged: {
             if (root.sideBarItem !== null && root.sideBarItem.currentIndex === 0) {
                 stackView.replace(stackView.preferredFavoritesViewComponent)
+            }
+        }
+        onPreferredAllAppsViewComponentChanged: {
+            if (root.sideBarItem !== null && root.sideBarItem.currentIndex === 1) {
+                stackView.replace(stackView.preferredAllAppsViewComponent)
             }
         }
         onPreferredAppsViewComponentChanged: {

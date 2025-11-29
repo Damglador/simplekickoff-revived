@@ -143,6 +143,14 @@ EmptyPage {
                     && kickoff.searchField.activeFocus)
         }
 
+        onCountChanged: {
+            if (!activeFocus) {
+                currentIndex = (count > 0 ? 0 : -1)
+            } else if (count > 0 && currentIndex !== -1) {
+                positionViewAtIndex(currentIndex, ListView.Contain)
+            }
+        }
+
         delegate: KickoffListDelegate {
             width: view.availableWidth
         }
@@ -253,7 +261,7 @@ EmptyPage {
                     case Qt.Key_Up: if (!atFirst) {
                         decrementCurrentIndex()
 
-                        if (currentItem.isSeparator) {
+                        if ((currentItem as AbstractKickoffItemDelegate).isSeparator) {
                             decrementCurrentIndex()
                         }
 
@@ -266,7 +274,7 @@ EmptyPage {
                     case Qt.Key_Down: if (!atLast) {
                         incrementCurrentIndex()
 
-                        if (currentItem.isSeparator) {
+                        if ((currentItem as AbstractKickoffItemDelegate).isSeparator) {
                             incrementCurrentIndex()
                         }
 
@@ -309,8 +317,8 @@ EmptyPage {
                     case Qt.Key_Return:
                         /* Fall through*/
                     case Qt.Key_Enter:
-                        root.currentItem.action.triggered();
-                        root.currentItem.forceActiveFocus(Qt.ShortcutFocusReason);
+                        (currentItem as AbstractKickoffItemDelegate).action.triggered();
+                        currentItem.forceActiveFocus(Qt.ShortcutFocusReason);
                         event.accepted = true;
                         break;
                 }
