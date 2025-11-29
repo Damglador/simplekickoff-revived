@@ -68,8 +68,8 @@ T.ItemDelegate {
 
         let actions = Array.from(model.actionList);
         const favoriteActions = Tools.createFavoriteActions(
-            i18n, //i18n() function callback
-            view.model.favoritesModel,
+            i18n, //i18n() function callback // qmllint disable unqualified
+            root.view.model.favoritesModel,
             model.favoriteId,
         );
         if (favoriteActions) {
@@ -126,9 +126,9 @@ T.ItemDelegate {
             if ((!root.activeFocus && !root.isSearchResult) || dragHandler.active || touchDragHandler.active) {
                 return;
             }
-            view.currentIndex = index
+            root.view.currentIndex = root.index
             // if successfully triggered, close popup
-            if (view.model.trigger && view.model.trigger(index, "", null)) {
+            if (root.view.model.trigger && root.view.model.trigger(root.index, "", null)) {
                 if (kickoff.hideOnWindowDeactivate) {
                     kickoff.expanded = false;
                 }
@@ -219,11 +219,11 @@ T.ItemDelegate {
             }
             // No need to check currentIndex first because it's
             // built into QQuickListView::setCurrentIndex() already
-            root.view.currentIndex = index
+            root.view.currentIndex = root.index
         }
         onPressed: mouse => {
             // Select and focus on press to improve responsiveness and touch feedback
-            view.currentIndex = index
+            root.view.currentIndex = root.index
             root.forceActiveFocus(Qt.MouseFocusReason)
 
             // Only enable drag and drop with a mouse.

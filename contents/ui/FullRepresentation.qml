@@ -156,7 +156,7 @@ EmptyPage {
 
                         iconName: "edit-none"
                         opacity: 0
-                        text: i18nc("@info:status", "No matches")
+                        text: i18nc("@info:status", "No matches") // qmllint disable unqualified
 
                         Connections {
                             target: kickoff.runnerModel

@@ -317,12 +317,12 @@ PlasmoidItem {
     }
 
     Kicker.ProcessRunner {
-        id: processRunner;
+        id: processRunner
     }
 
     Plasmoid.contextualActions: [
         PlasmaCore.Action {
-            text: i18n("Edit Applications…")
+            text: i18n("Edit Applications…") // qmllint disable unqualified
             icon.name: "kmenuedit"
             visible: Plasmoid.immutability !== PlasmaCore.Types.SystemImmutable
             onTriggered: processRunner.runMenuEditor()

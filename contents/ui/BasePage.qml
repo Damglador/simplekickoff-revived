@@ -33,6 +33,7 @@ FocusScope {
     property alias implicitSideBarWidth: sideBarLoader.implicitWidth
     property alias implicitSideBarHeight: sideBarLoader.implicitHeight
 
+    // DO NOT add separator.implicitWidth
     implicitWidth: preferredSideBarWidth + contentAreaLoader.implicitWidth
     implicitHeight: Math.max(preferredSideBarHeight, contentAreaLoader.implicitHeight)
 
