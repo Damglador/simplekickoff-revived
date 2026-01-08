@@ -134,6 +134,13 @@ PlasmoidItem {
     readonly property Item lastHeaderItem: header ? (paneSwap ? header.leaveButtons : header.pinButton) : null
     readonly property Item firstCentralPane: paneSwap ? contentArea : sideBar
     readonly property Item lastCentralPane: paneSwap ? sideBar : contentArea
+
+    readonly property Item dragSource: Item {
+        id: dragSource // BUG 449426
+        property Item sourceItem
+        Drag.dragType: Drag.Automatic
+        Drag.supportedActions: Qt.CopyAction | Qt.LinkAction
+    }
     //END
 
     //BEGIN Metrics

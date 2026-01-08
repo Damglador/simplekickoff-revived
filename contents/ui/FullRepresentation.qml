@@ -37,8 +37,8 @@ EmptyPage {
     Layout.preferredWidth: Math.max(implicitWidth, width)
     Layout.preferredHeight: Math.max(implicitHeight, height)
 
-    property alias applicationsPage: applicationsPage
-    property bool blockingHoverFocus: false
+    property bool blockingHoverFocus: true
+    property var interceptedPosition: null
 
     /* NOTE: Important things to know about keyboard input handling:
      *
@@ -106,41 +106,20 @@ EmptyPage {
                     width: view.availableWidth
                     isSearchResult: true
                 }
+                section.property: "group"
                 activeFocusOnTab: true
-                property var interceptedPosition: null
                 Keys.onTabPressed: event => {
                     kickoff.firstHeaderItem.forceActiveFocus(Qt.TabFocusReason);
                 }
                 Keys.onBacktabPressed: event => {
                     kickoff.lastHeaderItem.forceActiveFocus(Qt.BacktabFocusReason);
                 }
+                Keys.onUpPressed: event => {
+                    kickoff.searchField.forceActiveFocus(Qt.BacktabFocusReason)
+                }
                 T.StackView.onActivated: {
                     kickoff.sideBar = null
                     kickoff.contentArea = searchView
-                }
-
-                Connections {
-                    target: blockHoverFocusHandler
-                    enabled: blockHoverFocusHandler.enabled && !searchView.interceptedPosition
-                    function onPointChanged() {
-                        searchView.interceptedPosition = blockHoverFocusHandler.point.position
-                    }
-                }
-
-                Connections {
-                    target: blockHoverFocusHandler
-                    enabled: blockHoverFocusHandler.enabled && searchView.interceptedPosition && root.blockingHoverFocus
-                    function onPointChanged() {
-                        if (blockHoverFocusHandler.point.position === searchView.interceptedPosition) {
-                            return;
-                        }
-                        root.blockingHoverFocus = false
-                    }
-                }
-
-                HoverHandler {
-                    id: blockHoverFocusHandler
-                    enabled: !contentItemStackView.busy && (!searchView.interceptedPosition || root.blockingHoverFocus)
                 }
 
                 Loader {
@@ -178,6 +157,40 @@ EmptyPage {
             }
         }
 
+        Connections {
+            target: kickoff
+            function onExpandedChanged() {
+                if (!kickoff.expanded) {
+                    root.blockingHoverFocus = true
+                    root.interceptedPosition = null
+                }
+            }
+        }
+
+        Connections {
+            target: blockHoverFocusHandler
+            enabled: blockHoverFocusHandler.enabled && !root.interceptedPosition
+            function onPointChanged() {
+                root.interceptedPosition = blockHoverFocusHandler.point.position
+            }
+        }
+
+        Connections {
+            target: blockHoverFocusHandler
+            enabled: blockHoverFocusHandler.enabled && root.interceptedPosition && root.blockingHoverFocus
+            function onPointChanged() {
+                if (blockHoverFocusHandler.point.position === root.interceptedPosition) {
+                    return;
+                }
+                root.blockingHoverFocus = false
+            }
+        }
+
+        HoverHandler {
+            id: blockHoverFocusHandler
+            enabled: !contentItemStackView.busy && (!root.interceptedPosition || root.blockingHoverFocus)
+        }
+
         Keys.priority: Keys.AfterItem
         // This is here rather than root because events are implicitly forwarded
         // to parent items. Don't want to send multiple events to searchField.
@@ -186,17 +199,18 @@ EmptyPage {
         Connections {
             target: root.header
             function onSearchTextChanged() {
-                if (root.header.searchText.length === 0 && contentItemStackView.currentItem.objectName !== "applicationsPage") {
-                    root.blockingHoverFocus = false
+                if ((root.header as Header).searchText.length === 0 &&
+                    contentItemStackView.currentItem.objectName !== "applicationsPage") {
+                    root.blockingHoverFocus = true
                     contentItemStackView.reverseTransitions = true
                     contentItemStackView.replace(applicationsPage)
-                } else if (root.header.searchText.length > 0) {
+                } else if ((root.header as Header).searchText.length > 0) {
                     if (contentItemStackView.currentItem.objectName !== "searchView") {
                         contentItemStackView.reverseTransitions = false
                         contentItemStackView.replace(searchViewComponent)
                     } else {
                         root.blockingHoverFocus = true
-                        contentItemStackView.contentItem.interceptedPosition = null
+                        root.interceptedPosition = null
                         contentItemStackView.contentItem.currentIndex = 0
                     }
                 }

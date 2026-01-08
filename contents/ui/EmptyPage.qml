@@ -26,7 +26,8 @@ T.Page {
                             implicitFooterWidth2)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              contentHeight + topPadding + bottomPadding
-                             + (implicitHeaderHeight2 > 0 ? implicitHeaderHeight2 + spacing : 0))
+                             + (implicitHeaderHeight2 > 0 ? implicitHeaderHeight2 + spacing : 0)
+                             + (implicitFooterHeight2 > 0 ? implicitFooterHeight2 + spacing : 0))
 
     Accessible.ignored: true
 }

@@ -104,7 +104,7 @@ T.ItemDelegate {
     enabled: !isSeparator && !model.disabled
     hoverEnabled: false
 
-    text: model.name ?? model.displayWrapped ?? model.display
+    text: model.compactNameWrapped ?? model.compactName ?? model.displayWrapped ?? model.display
     Accessible.role: Accessible.ListItem
     Accessible.description: root.description !== root.text ? root.description : ""
     Accessible.onPressAction: {
@@ -175,7 +175,6 @@ T.ItemDelegate {
 
     MouseArea {
         id: mouseArea
-        property bool dragEnabled: false
         parent: root
         anchors.fill: parent
         anchors.margins: 1

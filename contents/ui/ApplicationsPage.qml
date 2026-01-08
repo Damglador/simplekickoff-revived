@@ -99,6 +99,13 @@ BasePage {
         focus: true
         initialItem: preferredFavoritesViewComponent
 
+        function showSectionView(sectionName: string, parentView: KickoffListView): void {
+            stackView.push(applicationsSectionViewComponent, {
+                currentSection: sectionName,
+                parentView,
+            });
+        }
+
         Component {
             id: favoritesListViewComponent
             DropAreaListView {
@@ -131,6 +138,26 @@ BasePage {
                 // we want to semantically switch between group and "", disabling grouping, workaround for QTBUG-121797
                 section.property: model && model.description === "KICKER_ALL_MODEL" ? "group" : "_unset"
                 section.criteria: ViewSection.FirstCharacter
+                hasSectionView: stackView.appsModelRow === 1
+
+                onShowSectionViewRequested: sectionName => {
+                    stackView.showSectionView(sectionName, this);
+                }
+            }
+        }
+
+        Component {
+            id: applicationsSectionViewComponent
+
+            SectionView {
+                id: sectionView
+                model: stackView.appsModel.sections
+
+                onHideSectionViewRequested: index => {
+                    stackView.pop();
+                    stackView.currentItem.view.positionViewAtIndex(index, ListView.Beginning);
+                    stackView.currentItem.currentIndex = index;
+                }
             }
         }
 
@@ -140,7 +167,21 @@ BasePage {
                 id: applicationsGridView
                 objectName: "applicationsGridView"
                 model: stackView.appsModel
-                preferredHeight: root.implicitHeight
+            }
+        }
+
+        Component {
+            id: listOfGridsViewComponent
+
+            ListOfGridsView {
+                id: listOfGridsView
+                objectName: "listOfGridsView"
+                mainContentView: true
+                gridModel: stackView.appsModel
+
+                onShowSectionViewRequested: sectionName => {
+                    stackView.showSectionView(sectionName, this);
+                }
             }
         }
 
