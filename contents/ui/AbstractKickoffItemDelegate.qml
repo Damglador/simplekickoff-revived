@@ -175,6 +175,8 @@ T.ItemDelegate {
 
     MouseArea {
         id: mouseArea
+        // Disabled by simplekickoff: produces lag when resizing applet if enabled/removed
+        property bool dragEnabled: false
         parent: root
         anchors.fill: parent
         anchors.margins: 1
