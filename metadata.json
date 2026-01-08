@@ -20,7 +20,7 @@
         "EnabledByDefault": true,
         "Name": "Simple Application Launcher",
         "Description": "Search Applications and more",
-        "Id": "org.kde.plasma.simplekickoff",
+        "Id": "simplekickoff-revived",
         "Icon": "start-here-kde",
         "Version": "2.6",
         "License": "GPL-2.0+"
