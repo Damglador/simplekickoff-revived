@@ -255,6 +255,12 @@ PlasmoidItem {
         DropArea {
             id: compactDragArea
             anchors.fill: parent
+            onEntered: drag => {
+                if (drag.hasUrls) {
+                    expandOnDragTimer.start()
+                }
+            }
+            onExited: expandOnDragTimer.stop()
         }
 
         Timer {
