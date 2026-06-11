@@ -66,3 +66,9 @@ The search bar uses `Plasma Search`, which is the same search provider used in t
 <img width="400px" src="assets/20220620_200013_Breeze_List.png" align="center"/>
 <img width="400px" src="assets/20220620_200013_Breeze_Grid.png" align="center"/>
 </p>
+
+## Developer notes
+
+You can run plasmoid using `plasmoidviewer --applet=simplekickoff-revived` or `plasmawindowed simplekickoff-revived`.
+
+You can apply changes to the current session with `systemctl --user restart plasma-plasmashell.service`
