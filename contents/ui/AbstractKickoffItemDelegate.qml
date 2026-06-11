@@ -40,6 +40,7 @@ T.ItemDelegate {
 
     readonly property Flickable view: ListView.view ?? GridView.view
     property bool isCategoryListItem: false
+    property bool removalPlaceholderActive: false
     readonly property bool hasActionList: model && (model.favoriteId !== null || ("hasActionList" in model && model.hasActionList === true))
     property bool isSearchResult: false
 
@@ -239,7 +240,7 @@ T.ItemDelegate {
 
     PC3.ToolTip.text: {
         if (root.labelTruncated) {
-            return model.display
+            return model?.display ?? ""
         } else if (root.descriptionTruncated || (!root.descriptionVisible && (root.isSearchResult
                                                                               || Plasmoid.configuration.appNameFormat > 1))) {
             return description

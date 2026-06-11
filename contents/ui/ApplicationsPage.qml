@@ -69,7 +69,7 @@ BasePage {
                 active: false
                 hovered: sideBarDelegate.mouseArea.containsMouse
                 visible: !Plasmoid.configuration.switchCategoryOnHover
-                    && !sideBarDelegate.isSeparator && !sideBarDelegate.ListView.isCurrentItem
+                    && !sideBarDelegate.isSeparator
                     && hovered
             }
         }

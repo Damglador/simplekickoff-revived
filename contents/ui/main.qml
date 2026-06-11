@@ -31,8 +31,8 @@ PlasmoidItem {
     width: Kirigami.Units.iconSizes.huge
     height: Kirigami.Units.iconSizes.huge
 
-    switchWidth: fullRepresentationItem ? fullRepresentationItem.Layout.minimumWidth : -1
-    switchHeight: fullRepresentationItem ? fullRepresentationItem.Layout.minimumHeight : -1
+    switchWidth: fullRepresentationItem ? fullRepresentationItem.Layout.minimumWidth : Kirigami.Units.iconSizes.huge * 10
+    switchHeight: fullRepresentationItem ? fullRepresentationItem.Layout.minimumHeight : Kirigami.Units.iconSizes.huge * 10
 
     // The properties are defined here instead of the singleton because each
     // instance of Kickoff requires different instances of these properties
@@ -293,6 +293,8 @@ PlasmoidItem {
                 Layout.fillHeight: !kickoff.vertical
                 Layout.preferredWidth: kickoff.vertical ? -1 : height / (implicitHeight / implicitWidth)
                 Layout.preferredHeight: !kickoff.vertical ? -1 : width * (implicitHeight / implicitWidth)
+                Layout.maximumHeight: Kirigami.Units.iconSizes.huge
+                Layout.maximumWidth: Kirigami.Units.iconSizes.huge
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
                 source: Tools.iconOrDefault(Plasmoid.formFactor, Plasmoid.icon)
                 active: compactRoot.containsMouse || compactDragArea.containsDrag
