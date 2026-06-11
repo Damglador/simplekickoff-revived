@@ -1,4 +1,4 @@
-Simple-Kickoff: contents/* LICENSE* metadata.*
-	zip -FS -r -v Simple-Kickoff.plasmoid contents LICENSE* metadata.*
+simple-kickoff-revived.plasmoid: contents/* LICENSE* metadata.*
+	zip -FS -rv simple-kickoff-revived.plasmoid contents LICENSE* metadata.*
 clean:
 	rm *.plasmoid
