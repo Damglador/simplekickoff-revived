@@ -22,7 +22,7 @@ import org.kde.plasma.plasmoid
 AbstractKickoffItemDelegate {
     id: root
 
-    property bool compact: Kirigami.Settings.tabletMode ? false : Plasmoid.configuration.compactMode
+    property bool compact: Plasmoid.configuration.compactMode
 
     leftPadding: KickoffSingleton.listItemMetrics.margins.left
         + (mirrored ? KickoffSingleton.fontMetrics.descent : 0)
@@ -53,72 +53,77 @@ AbstractKickoffItemDelegate {
 
             animated: false
             selected: root.iconAndLabelsShouldlookSelected
-            source: root.decoration || root.icon.name || root.icon.source
+            source: root.removalPlaceholderActive ? "list-remove" : (root.decoration || root.icon.name || root.icon.source)
         }
 
-        GridLayout {
-            id: gridLayout
+        Item {
+            id: gridLayoutWrapper // exists to break implicitWidth propagation
 
-            readonly property color textColor: root.iconAndLabelsShouldlookSelected ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
-
+            implicitHeight: gridLayout.implicitHeight
             Layout.fillWidth: true
 
-            rows: root.compact ? 1 : 2
-            columns: root.compact ? 2 : 1
-            rowSpacing: 0
-            columnSpacing: Kirigami.Units.largeSpacing
+            GridLayout {
+                id: gridLayout
 
-            PC3.Label {
-                id: label
-                Layout.fillWidth: !descriptionLabel.visible
-                Layout.maximumWidth: root.width - root.leftPadding - root.rightPadding - icon.width - row.spacing
-                Layout.preferredHeight: {
-                    if (root.isCategoryListItem) {
-                        return root.compact ? implicitHeight : Math.round(implicitHeight * 1.5);
-                    }
-                    if (!root.compact && !descriptionLabel.visible) {
-                        return implicitHeight * 2;
-                    }
-                    return implicitHeight;
-                }
-                text: root.text
-                textFormat: root.isMultilineText ? Text.StyledText : Text.PlainText
-                elide: Text.ElideRight
-                wrapMode: root.isMultilineText ? Text.WordWrap : Text.NoWrap
-                verticalAlignment: Text.AlignVCenter
-                maximumLineCount: root.isMultilineText ? Infinity : 1
-                color: gridLayout.textColor
-            }
+                readonly property color textColor: root.iconAndLabelsShouldlookSelected ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
 
-            PC3.Label {
-                id: descriptionLabel
-                Layout.fillWidth: true
-                visible: {
-                    let isApplicationSearchResult = root.model?.group === "Applications" || root.model?.group === "System Settings"
-                    let isSearchResultWithDescription = root.isSearchResult && (Plasmoid.configuration?.appNameFormat > 1 || !isApplicationSearchResult)
-                    return text.length > 0 && (isSearchResultWithDescription || (text !== label.text && !root.isCategoryListItem && Plasmoid.configuration?.appNameFormat > 1))
+                anchors.fill: parent
+                visible: !root.removalPlaceholderActive
+
+                rows: root.compact ? 1 : 2
+                columns: root.compact ? 2 : 1
+                rowSpacing: 0
+                columnSpacing: Kirigami.Units.largeSpacing
+
+                PC3.Label {
+                    id: label
+                    Layout.fillWidth: !descriptionLabel.visible
+                    Layout.preferredWidth: Math.min(gridLayoutWrapper.width, implicitWidth)
+                    text: root.text
+                    textFormat: root.isMultilineText ? Text.StyledText : Text.PlainText
+                    elide: Text.ElideRight
+                    wrapMode: root.isMultilineText ? Text.WordWrap : Text.NoWrap
+                    verticalAlignment: Text.AlignVCenter
+                    maximumLineCount: root.isMultilineText ? Infinity : 1
+                    color: gridLayout.textColor
                 }
-                opacity: 0.75
-                text: root.description
-                textFormat: Text.PlainText
-                font: Kirigami.Theme.smallFont
-                elide: Text.ElideRight
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: root.compact ? Text.AlignRight : Text.AlignLeft
-                maximumLineCount: 1
-                color: gridLayout.textColor
+
+                PC3.Label {
+                    id: descriptionLabel
+                    Layout.fillWidth: true
+                    visible: {
+                        let isApplicationSearchResult = root.model?.group === "Applications" || root.model?.group === "System Settings"
+                        let isSearchResultWithDescription = root.isSearchResult && (Plasmoid.configuration?.appNameFormat > 1 || !isApplicationSearchResult)
+                        return text.length > 0 && (isSearchResultWithDescription || (text !== label.text && !root.isCategoryListItem && Plasmoid.configuration?.appNameFormat > 1))
+                    }
+                    opacity: 0.75
+                    text: root.description
+                    textFormat: Text.PlainText
+                    font: Kirigami.Theme.smallFont
+                    elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: root.compact ? Text.AlignRight : Text.AlignLeft
+                    maximumLineCount: 1
+                    color: gridLayout.textColor
+                }
             }
         }
 
         Loader {
-            visible: active
-            active: root.model?.isNewlyInstalled ?? false
+            Layout.preferredWidth: root.isCategoryListItem ? Kirigami.Units.largeSpacing : implicitWidth
+            Layout.preferredHeight: root.isCategoryListItem ? Kirigami.Units.largeSpacing : implicitHeight
 
-            sourceComponent: Badge {
-                text: root.isCategoryListItem ? "" : Accessible.name
-                Accessible.name: i18nc("Newly installed app, badge, keep short", "New!") // qmllint disable unqualified
-                Accessible.description: root.isCategoryListItem ? i18n("There is a newly installed application in this category") // qmllint disable unqualified
-                                                         : i18n("Newly installed application") // qmllint disable unqualified
+            visible: active
+            active: (root.model?.isNewlyInstalled ?? false) && !root.removalPlaceholderActive
+
+            sourceComponent: Kirigami.Badge {
+                text: root.isCategoryListItem ? "" : i18nc("Newly-installed app, badge, keep short", "New!")
+
+                type: Kirigami.Badge.Type.Positive
+
+                Accessible.description: root.isCategoryListItem
+                    ? i18n("There is a newly-installed application in this category")
+                    : i18n("Newly-installed application")
             }
         }
     }
