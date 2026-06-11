@@ -19,6 +19,39 @@ BasePage {
     property real preferredSideBarWidth: 0
     property real stackViewWidth: contentAreaItem.width
     
+
+    property real flashFavorite: 0
+
+    // Flash favorites when adding one.
+    SequentialAnimation {
+        id: flashFavoriteAnimation
+        loops: 2
+        alwaysRunToEnd: true
+
+        NumberAnimation {
+            target: root
+            property: "flashFavorite"
+            from: 0
+            to: 1
+            duration: Kirigami.Units.veryLongDuration
+            easing.type: Easing.OutCubic
+        }
+        NumberAnimation {
+            target: root
+            property: "flashFavorite"
+            to: 0
+            duration: Kirigami.Units.veryLongDuration
+            easing.type: Easing.OutCubic
+        }
+    }
+
+    Connections {
+        target: kickoff.rootModel.favoritesModel
+        function onFavoriteAdded() : void {
+            flashFavoriteAnimation.restart();
+        }
+    }
+
     sideBarComponent: KickoffListView {
         id: sideBar
         focus: true // needed for Loaders

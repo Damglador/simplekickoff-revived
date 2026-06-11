@@ -28,6 +28,12 @@ import "code/tools.js" as Tools
 PlasmoidItem {
     id: kickoff
 
+    width: Kirigami.Units.iconSizes.huge
+    height: Kirigami.Units.iconSizes.huge
+
+    switchWidth: fullRepresentationItem ? fullRepresentationItem.Layout.minimumWidth : -1
+    switchHeight: fullRepresentationItem ? fullRepresentationItem.Layout.minimumHeight : -1
+
     // The properties are defined here instead of the singleton because each
     // instance of Kickoff requires different instances of these properties
 
@@ -128,7 +134,7 @@ PlasmoidItem {
     // True when central pane (and header) LayoutMirroring diverges from global
     // LayoutMirroring, in order to achieve the desired sidebar position
     readonly property bool paneSwap: Plasmoid.configuration.paneSwap
-    readonly property bool sideBarOnRight: (Qt.application.layoutDirection == Qt.RightToLeft) != paneSwap
+    readonly property bool sideBarOnRight: (Application.layoutDirection == Qt.RightToLeft) != paneSwap
     // References to items according to their focus chain order
     readonly property Item firstHeaderItem: header ? (paneSwap ? header.pinButton : header.leaveButtons) : null
     readonly property Item lastHeaderItem: header ? (paneSwap ? header.leaveButtons : header.pinButton) : null
@@ -139,7 +145,7 @@ PlasmoidItem {
         id: dragSource // BUG 449426
         property Item sourceItem
         Drag.dragType: Drag.Automatic
-        Drag.supportedActions: Qt.CopyAction | Qt.LinkAction
+        Drag.supportedActions: Qt.CopyAction | Qt.LinkAction | Qt.MoveAction
     }
     //END
 
@@ -178,9 +184,6 @@ PlasmoidItem {
     //END
 
     Plasmoid.icon: Plasmoid.configuration.icon
-
-    switchWidth: fullRepresentationItem ? fullRepresentationItem.Layout.minimumWidth : -1
-    switchHeight: fullRepresentationItem ? fullRepresentationItem.Layout.minimumHeight : -1
 
     preferredRepresentation: compactRepresentation
 

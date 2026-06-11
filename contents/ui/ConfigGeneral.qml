@@ -114,24 +114,6 @@ KCM.SimpleKCM {
             }
         }
 
-        // Disabled by simplekickoff
-        // Item {
-        //     Kirigami.FormData.isSection: true
-        // }
-
-        // Disabled by simplekickoff
-        // QQC2.ComboBox {
-        //     id: appNameFormat
-
-        //     Kirigami.FormData.label: i18n("Show applications as:")
-
-        //     model: [i18n("Name only"), i18n("Description only"), i18n("Name (Description)"), i18n("Description (Name)")]
-        // }
-
-        Item {
-            Kirigami.FormData.isSection: true
-        }
-
         Kirigami.ActionTextField {
             id: menuLabel
             enabled: Plasmoid.formFactor !== PlasmaCore.Types.Vertical
@@ -169,6 +151,20 @@ KCM.SimpleKCM {
             font: Kirigami.Theme.smallFont
         }
 
+        // Disabled by simplekickoff
+        // Item {
+        //     Kirigami.FormData.isSection: true
+        // }
+
+        // Disabled by simplekickoff
+        // QQC2.ComboBox {
+        //     id: appNameFormat
+
+        //     Kirigami.FormData.label: i18n("Show applications as:")
+
+        //     model: [i18n("Name only"), i18n("Description only"), i18n("Name (Description)"), i18n("Description (Name)")]
+        // }
+
         Item {
             Kirigami.FormData.isSection: true
         }
@@ -188,16 +184,8 @@ KCM.SimpleKCM {
 
         QQC2.CheckBox {
             id: compactModeCheckbox
-            text: i18n("Use compact list item style") // qmllint disable unqualified
-            checked: Kirigami.Settings.tabletMode ? true : Plasmoid.configuration.compactMode
-            enabled: !Kirigami.Settings.tabletMode
-        }
-        QQC2.Label {
-            visible: Kirigami.Settings.tabletMode
-            text: i18nc("@info:usagetip under a checkbox when Touch Mode is on", "Automatically disabled when in Touch Mode") // qmllint disable unqualified
-            Layout.fillWidth: true
-            wrapMode: Text.Wrap
-            font: Kirigami.Theme.smallFont
+            text: i18nc("@option:check", "Use compact list item style") // qmllint disable unqualified
+            checked: Plasmoid.configuration.compactMode
         }
 
         QQC2.CheckBox {
