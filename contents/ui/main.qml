@@ -221,25 +221,19 @@ PlasmoidItem {
             if (kickoff.inPanel) {
                 if (kickoff.vertical) {
                     return {
-                        minimumWidth: -1,
-                        maximumWidth: iconSize,
-                        minimumHeight: impHeight,
-                        maximumHeight: impHeight,
+                        preferredWidth: iconSize,
+                        preferredHeight: impHeight
                     };
                 } else { // horizontal
                     return {
-                        minimumWidth: impWidth,
-                        maximumWidth: impWidth,
-                        minimumHeight: -1,
-                        maximumHeight: iconSize,
+                        preferredWidth: impWidth,
+                        preferredHeight: iconSize
                     };
                 }
             } else {
                 return {
-                    minimumWidth: impWidth,
-                    maximumWidth: -1,
-                    minimumHeight: Kirigami.Units.iconSizes.small,
-                    maximumHeight: -1,
+                    preferredWidth: impWidth,
+                    preferredHeight: Kirigami.Units.iconSizes.small,
                 };
             }
         }
@@ -247,10 +241,10 @@ PlasmoidItem {
         implicitWidth: iconSize
         implicitHeight: iconSize
 
-        Layout.minimumWidth: sizing.minimumWidth
-        Layout.maximumWidth: sizing.maximumWidth
-        Layout.minimumHeight: sizing.minimumHeight
-        Layout.maximumHeight: sizing.maximumHeight
+        Layout.preferredWidth: sizing.preferredWidth
+        Layout.preferredHeight: sizing.preferredHeight
+        Layout.minimumWidth: Layout.preferredWidth
+        Layout.minimumHeight: Layout.preferredHeight
 
         hoverEnabled: true
 
@@ -313,7 +307,26 @@ PlasmoidItem {
 
                 source: buttonIcon.valid ? null : Tools.defaultIconName
                 active: compactRoot.containsMouse || compactDragArea.containsDrag
-                visible: !buttonIcon.valid && Plasmoid.icon !== ""
+                visible: !buttonIcon.valid && Plasmoid.icon !== "" && !imageFallback.visible
+            }
+
+            Image {
+                id: imageFallback
+
+                readonly property bool nonSquareImage: sourceSize.width != sourceSize.height
+
+                visible: nonSquareImage && status == Image.Ready
+                source: Plasmoid.icon.startsWith("/") ? "file:" + Plasmoid.icon.split("/").map(encodeURIComponent).join("/") : ""
+
+                Layout.fillWidth: kickoff.vertical
+                Layout.fillHeight: !kickoff.vertical
+                Layout.preferredWidth: kickoff.vertical ? -1 : height / (implicitHeight / implicitWidth)
+                Layout.preferredHeight: !kickoff.vertical ? -1 : width * (implicitHeight / implicitWidth)
+                Layout.maximumHeight: kickoff.vertical ? -1 : Kirigami.Units.iconSizes.huge
+                Layout.maximumWidth: kickoff.vertical ? Kirigami.Units.iconSizes.huge : -1
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                fillMode: Image.PreserveAspectFit
+                mipmap: true
             }
 
             PC3.Label {
