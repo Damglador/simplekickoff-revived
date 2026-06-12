@@ -7,7 +7,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Layouts
 import QtQuick.Templates as T
 import org.kde.plasma.private.kicker as Kicker
 import org.kde.kirigami as Kirigami
@@ -16,9 +15,9 @@ import org.kde.plasma.extras as PlasmaExtras
 
 BasePage {
     id: root
+    // Required by simplekickoff
     property real preferredSideBarWidth: 0
     property real stackViewWidth: contentAreaItem.width
-    
 
     property real flashFavorite: 0
 

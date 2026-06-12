@@ -18,6 +18,7 @@ import QtQuick
 import QtQuick.Templates as T
 import QtQuick.Layouts
 import org.kde.plasma.plasmoid
+import org.kde.plasma.private.kicker as Kicker
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.extras as PlasmaExtras
 
@@ -32,11 +33,7 @@ EmptyPage {
     readonly property var appletInterface: kickoff
 
     Layout.minimumWidth: implicitWidth
-    Layout.maximumWidth: Kirigami.Units.gridUnit * 80
     Layout.minimumHeight: implicitHeight
-    Layout.maximumHeight: Kirigami.Units.gridUnit * 40
-    Layout.preferredWidth: Math.max(implicitWidth, width)
-    Layout.preferredHeight: Math.max(implicitHeight, height)
 
     property bool blockingHoverFocus: true
     property var interceptedPosition: null
@@ -98,8 +95,6 @@ EmptyPage {
                 id: searchView
                 objectName: "searchView"
                 mainContentView: true
-                implicitWidth: applicationsPage.implicitWidth
-                implicitHeight: applicationsPage.implicitHeight
                 // Forces the function be re-run every time runnerModel.count changes.
                 // This is absolutely necessary to make the search view work reliably.
                 model: kickoff.runnerModel.count ? kickoff.runnerModel.modelForRow(0) : null
@@ -212,10 +207,46 @@ EmptyPage {
                         contentItemStackView.reverseTransitions = false
                         contentItemStackView.replace(searchViewComponent)
                     } else {
-                        root.blockingHoverFocus = true
-                        root.interceptedPosition = null
                         contentItemStackView.contentItem.currentIndex = 0
                     }
+                }
+                root.blockingHoverFocus = true
+                root.interceptedPosition = null
+            }
+        }
+    }
+
+    Loader {
+        active: !!kickoff.dragSource.sourceItem
+        anchors.fill: parent
+        sourceComponent: DropArea {
+            id: favoriteRemoveDropArea
+
+            // should be  "as AbstractKickoffItemDelegate", but the type system gets confused when changing view style at runtime
+            readonly property Item draggedItem: kickoff.dragSource.sourceItem
+
+            onEntered: event => {
+                if (draggedItem?.view.model instanceof Kicker.KAStatsFavoritesModel) {
+                    event.accept (Qt.MoveAction)
+                    draggedItem.removalPlaceholderActive = true
+                } else {
+                    event.accepted = false
+                }
+            }
+
+            onDropped: event => {
+                if (draggedItem && kickoff.rootModel.favoritesModel.isFavorite(draggedItem.model.favoriteId) && draggedItem.view.model instanceof Kicker.KAStatsFavoritesModel) {
+                    kickoff.rootModel.favoritesModel.removeFavorite(draggedItem.model.favoriteId);
+                    event.accept(Qt.MoveAction)
+                } else {
+                    draggedItem.removalPlaceholderActive = false
+                    event.accepted = false
+                }
+            }
+
+            onExited: {
+                if (draggedItem) {
+                    draggedItem.removalPlaceholderActive = false
                 }
             }
         }
