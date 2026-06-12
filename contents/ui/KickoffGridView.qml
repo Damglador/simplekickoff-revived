@@ -235,19 +235,23 @@ EmptyPage {
             let targetY = currentItem ? currentItem.y : contentY
             let targetIndex = currentIndex
             // supports mirroring
-            const atLeft = currentIndex % columns === (Qt.application.layoutDirection == Qt.RightToLeft ? columns - 1 : 0)
+            const atLeft = currentIndex % columns === (Application.layoutDirection == Qt.RightToLeft ? columns - 1 : 0)
             // at the beginning of a line
             const isLeading = currentIndex % columns === 0
             // at the top of a given column and in the top row
             const atTop = currentIndex < columns
             // supports mirroring
-            const atRight = currentIndex % columns === (Qt.application.layoutDirection == Qt.RightToLeft ? 0 : columns - 1)
+            const atRight = currentIndex % columns === (Application.layoutDirection == Qt.RightToLeft ? 0 : columns - 1)
             // at the end of a line
             const isTrailing = currentIndex % columns === columns - 1
             // at bottom of a given column, not necessarily in the last row
             let atBottom = currentIndex >= count - columns
             // Implements the keyboard navigation described in https://www.w3.org/TR/wai-aria-practices-1.2/#grid
-            if (count > 1) {
+            if (count > 0 && (event.key == Qt.Key_Return || event.key == Qt.Key_Enter)) {
+                (root.currentItem as AbstractKickoffItemDelegate).action.triggered();
+                root.currentItem.forceActiveFocus(Qt.ShortcutFocusReason);
+                event.accepted = true;
+            } else if (count > 1) {
                 switch (event.key) {
                     case Qt.Key_Left: if (!atLeft && !kickoff.searchField.activeFocus) {
                         moveCurrentIndexLeft()
@@ -319,13 +323,6 @@ EmptyPage {
                         currentIndex = Math.min(targetIndex, count - 1)
                         focusCurrentItem(event, Qt.TabFocusReason)
                     } break
-                    case Qt.Key_Return:
-                        /* Fall through*/
-                    case Qt.Key_Enter:
-                        (root.currentItem as AbstractKickoffItemDelegate).action.triggered();
-                        root.currentItem.forceActiveFocus(Qt.ShortcutFocusReason);
-                        event.accepted = true;
-                        break;
                 }
             }
             movedWithKeyboard = event.accepted
