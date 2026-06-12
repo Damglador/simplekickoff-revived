@@ -7,6 +7,7 @@
     SPDX-FileCopyrightText: 2021 Mikel Johnson <mikel5764@gmail.com>
     SPDX-FileCopyrightText: 2021 Noah Davis <noahadvs@gmail.com>
     SPDX-FileCopyrightText: 2023 Himprakash Deka <himprakashd@gmail.com>
+    SPDX-FileCopyrightText: 2026 Vsevolod Stopchanskyi <vse.stopchanskyi@gmail.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
 */
@@ -71,7 +72,7 @@ EmptyPage {
 
     header: Header {
         id: header
-        preferredSearchBarWidth: applicationsPage.stackViewWidth - kickoff.backgroundMetrics.leftPadding
+        preferredSearchBarWidth: root.width - applicationsPage.preferredSideBarWidth - kickoff.backgroundMetrics.leftPadding
         Binding {
             target: kickoff
             property: "header"
